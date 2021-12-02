@@ -2,10 +2,11 @@ import "./App.css";
 import "axios";
 import { Button } from "@mui/material";
 import axios from 'axios';
+import React, { useState } from 'react'; 
 
 function App() {
 
-  
+  var [label,setLabel] = useState(null);
   const headers = {
     "Content-Type": "application/json",
 
@@ -14,7 +15,7 @@ function App() {
   function login() {
     axios
       .post(
-        "http://localhost:8000/api/user/login",
+        "http://140.125.45.167:8000/api/user/login",
         { username: "hsipl206", password: "hsipl206" },
         {
           headers: {
@@ -24,18 +25,18 @@ function App() {
           withCredentials: true
         }
       )
-      .then((response) => console.log(response.data));
+      .then((response) => setLabel(response.data['msg'].toString()));
   }
 
   function store() {
-    axios.get("http://localhost:8000/api/store",{
+    axios.get("http://140.125.45.167:8000/api/store",{
       headers: {
         'Accept' : 'application/json',
         'Content-Type': 'application/json'
       },
       withCredentials: true
     }).then((res) => {
-      console.log(res.data);
+      setLabel(res.data['0'].toString());
     });
   }
 //   const requestOptions = {
@@ -62,6 +63,7 @@ function App() {
       <Button variant="text" onClick={() => store()}>
         store
       </Button>
+      <p>  {label} </p>
     </div>
   );
 }
